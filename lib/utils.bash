@@ -2,22 +2,37 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for godot.
-GH_REPO="https://github.com/ez-connect/asdf-gotdot"
-TOOL_NAME="godot"
-TOOL_TEST="godot --help"
+GH_REPO='https://github.com/godotengine/godot-builds'
+TOOL_NAME='godot'
+TOOL_TEST='godot --help'
+
+curl_opts=(-fsSL)
+
+if [ -n "${GITHUB_API_TOKEN:-}" ]; then
+	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
+fi
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
 	exit 1
 }
 
-curl_opts=(-fsSL)
+msg() {
+	echo -e "\033[32m$1\033[39m" >&2
+}
 
-# NOTE: You might want to remove this if godot is not hosted on GitHub releases.
-if [ -n "${GITHUB_API_TOKEN:-}" ]; then
-	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
-fi
+err() {
+	echo -e "\033[31m$1\033[39m" >&2
+}
+
+get_release_file_name() {
+	local version="$1"
+
+	platform=$(uname | tr '[:upper:]' '[:lower:]')
+	arch=$(uname -m)
+
+	echo "Godot_v${version}_${platform}.${arch}"
+}
 
 sort_versions() {
 	sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' |
@@ -31,8 +46,6 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if godot has other means of determining installable versions.
 	list_github_tags
 }
 
@@ -41,8 +54,7 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for godot
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/${version}/$(get_release_file_name "${version}").zip"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
