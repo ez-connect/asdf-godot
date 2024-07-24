@@ -1,38 +1,31 @@
-<div align="center">
+# asdf-godot [![Build](https://github.com/ez-connect/asdf-godot/actions/workflows/build.yml/badge.svg)](https://github.com/ez-connect/asdf-godot/actions/workflows/build.yml) [![Lint](https://github.com/ez-connect/asdf-godot/actions/workflows/lint.yml/badge.svg)](https://github.com/ez-connect/asdf-godot/actions/workflows/lint.yml)
 
-# asdf-godot [![Build](https://github.com/thanh-vinh/asdf-godot/actions/workflows/build.yml/badge.svg)](https://github.com/thanh-vinh/asdf-godot/actions/workflows/build.yml) [![Lint](https://github.com/thanh-vinh/asdf-godot/actions/workflows/lint.yml/badge.svg)](https://github.com/thanh-vinh/asdf-godot/actions/workflows/lint.yml)
+[godot](https://godotengine.org) plugin for the [asdf version manager](https://asdf-vm.com).
 
-[godot](https://github.com/ez-connect/asdf-gotdot) plugin for the [asdf version manager](https://asdf-vm.com).
-
-</div>
-
-# Contents
+## Contents
 
 - [Dependencies](#dependencies)
 - [Install](#install)
 - [Contributing](#contributing)
 - [License](#license)
 
-# Dependencies
+## Dependencies
 
-**TODO: adapt this section**
+- `bash`, `curl`, `unzip`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
 
-- `bash`, `curl`, `tar`, and [POSIX utilities](https://pubs.opengroup.org/onlinepubs/9699919799/idx/utilities.html).
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+## Install
 
-# Install
+### Plugin
 
-Plugin:
-
-```shell
+```sh
 asdf plugin add godot
 # or
-asdf plugin add godot https://github.com/thanh-vinh/asdf-godot.git
+asdf plugin add godot https://github.com/ez-connect/asdf-godot.git
 ```
 
-godot:
+### Godot
 
-```shell
+```sh
 # Show all installable versions
 asdf list-all godot
 
@@ -53,8 +46,8 @@ install & manage versions.
 
 Contributions of any kind welcome! See the [contributing guide](contributing.md).
 
-[Thanks goes to these contributors](https://github.com/thanh-vinh/asdf-godot/graphs/contributors)!
+[Thanks goes to these contributors](https://github.com/ez-connect/asdf-godot/graphs/contributors)!
 
 # License
 
-See [LICENSE](LICENSE) © [Vinh](https://github.com/thanh-vinh/)
+See [LICENSE](LICENSE)
