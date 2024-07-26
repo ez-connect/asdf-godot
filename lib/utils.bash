@@ -12,23 +12,15 @@ if [ -n "${GITHUB_API_TOKEN:-}" ]; then
 	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
 
-fail() {
-	echo -e "asdf-$TOOL_NAME: $*"
-	exit 1
-}
-
-msg() {
-	echo -e "\033[32m$1\033[39m" >&2
-}
-
-err() {
-	echo -e "\033[31m$1\033[39m" >&2
-}
-
 get_release_file_name() {
 	local version="$1"
 
 	platform=$(uname | tr '[:upper:]' '[:lower:]')
+	if [ "${platform}" == 'darwin' ]; then
+		echo "Godot_v${version}_macos.universal"
+		exit 0
+	fi
+
 	arch=$(uname -m)
 
 	echo "Godot_v${version}_${platform}.${arch}"
@@ -75,6 +67,11 @@ install_version() {
 
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+		platform=$(uname | tr '[:upper:]' '[:lower:]')
+		if [ "${platform}" == "darwin" ]; then
+			ln -s "${install_path}/Godot.app/Contents/MacOS/Godot" "$install_path/${tool_cmd}"
+		fi
+
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
