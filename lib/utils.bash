@@ -4,7 +4,7 @@ set -euo pipefail
 
 GH_REPO_GODOT='https://github.com/godotengine/godot-builds'
 GH_REPO_REDOT='https://github.com/Redot-Engine/redot-engine'
-ASDF_GODOT_INSTALL_MONO='0' #HACK: for some reason this bash script doesn't like unbound vars
+ASDF_GODOT_INSTALL_MONO=${ASDF_GODOT_INSTALL_MONO:-'0'} #HACK: for some reason this bash script doesn't like unbound vars
 
 curl_opts=(-fsSL)
 
@@ -60,7 +60,7 @@ list_all_versions() {
 	local tool_name="$2"
 
 	sed_command='s/^v//; /2024101114/d'
-	if [[ "$tool_name" == "redot" ]]; then 
+	if [[ "$tool_name" == "redot" ]]; then
 		sed_command='s/^v//; /godot/d; /2024101114/d'
 	fi
 	git ls-remote --tags --refs "$repo" |
