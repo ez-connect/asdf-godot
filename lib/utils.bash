@@ -81,6 +81,40 @@ download_release() {
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
 
+macos_symlink_app() {
+	local install_path="$1"
+	local tool_cmd="$2"
+	local tool_name="$3"
+
+	mono=
+	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
+		mono="_mono"
+	fi
+
+	app_path=
+
+	if [ "$tool_name" == "redot" ]; then
+		app_path="${install_path}/Redot${mono}.app/Contents/MacOS/Redot"
+	else
+		app_path="${install_path}/Godot${mono}.app/Contents/MacOS/Godot"
+	fi
+	echo "setting symlink ${app_path} to ${install_path}/${tool_cmd}"
+
+	ln -s "$app_path" "$install_path/${tool_cmd}"
+}
+
+macos_symlink_mono_assemblies() {
+	local install_path="$1"
+	local tool_cmd="$2"
+
+	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
+		assemblies_path="${install_path}/Redot_mono.app/Contents/Resources/GodotSharp"
+		echo "setting symlink ${assemblies_path} to ${install_path}"
+
+		ln -s "$assemblies_path" "$install_path"
+	fi
+}
+
 install_version() {
 	local tool_name="$1"
 	local install_type="$2"
@@ -100,21 +134,9 @@ install_version() {
 		tool_cmd="$(echo "${tool_name} --help" | cut -d' ' -f1)"
 		platform=$(uname | tr '[:upper:]' '[:lower:]')
 
-		mono=
-		if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
-			mono="_mono"
-		fi
-
-		app_path=
-
-		if [ "$tool_name" == "redot" ]; then
-			app_path="${install_path}/Redot${mono}.app/Contents/MacOS/Redot"
-		else
-			app_path="${install_path}/Godot${mono}.app/Contents/MacOS/Godot"
-		fi
-
 		if [ "${platform}" == "darwin" ]; then
-			ln -s "$app_path" "$install_path/${tool_cmd}"
+			macos_symlink_app "$install_path" "$tool_cmd" "$tool_name"
+			macos_symlink_mono_assemblies "$install_path" "$tool_cmd"
 		fi
 
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
