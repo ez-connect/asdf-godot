@@ -108,9 +108,9 @@ install_version() {
 		app_path=
 
 		if [ "$tool_name" == "redot" ]; then
-			app_path="${install_path}/Redot.app/Contents/MacOS/Redot"
+			app_path="${install_path}/Redot${mono}.app/Contents/MacOS/Redot"
 		else
-			app_path="${install_path}/Godot.app/Contents/MacOS/Godot"
+			app_path="${install_path}/Godot${mono}.app/Contents/MacOS/Godot"
 		fi
 
 		if [ "${platform}" == "darwin" ]; then
