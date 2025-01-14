@@ -109,9 +109,9 @@ macos_symlink_mono_assemblies() {
 
 	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
 		assemblies_path="${install_path}/Redot_mono.app/Contents/Resources/GodotSharp"
-		echo "setting symlink ${assemblies_path} to ${install_path}/${tool_cmd}"
+		echo "setting symlink ${assemblies_path} to ${install_path}"
 
-		ln -s "$assemblies_path" "$install_path/${tool_cmd}"
+		ln -s "$assemblies_path" "$install_path"
 	fi
 }
 
