@@ -26,10 +26,10 @@ download_release "$toolname" "$repo_name" "$ASDF_INSTALL_VERSION" "$release_file
 #  Extract contents of tar.gz file into the download directory
 unzip "$release_file" -d "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
 
-# platform=$(uname | tr '[:upper:]' '[:lower:]')
-# if [ "${platform}" == "linux" ]; then
-# 	mv "$ASDF_DOWNLOAD_PATH/$(get_release_file_name "$ASDF_INSTALL_VERSION")" "$ASDF_DOWNLOAD_PATH/$toolname"
-# fi
+platform=$(uname | tr '[:upper:]' '[:lower:]')
+if [ "${platform}" == "linux" ]; then
+	mv "$ASDF_DOWNLOAD_PATH/$(get_release_file_name "$ASDF_INSTALL_VERSION" "$toolname")" "$ASDF_DOWNLOAD_PATH/$toolname"
+fi
 
 # Remove the tar.gz file since we don't need to keep it
 rm "$release_file"
