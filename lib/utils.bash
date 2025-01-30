@@ -12,30 +12,15 @@ if [ -n "${GITHUB_API_TOKEN:-}" ]; then
 	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
 
-get_redot_release_name() {
-	local version=$1
-	local platform=$2
-	local arch=$3
-	local mono=$4
-
-	redot_version=$(echo "$version" | sed 's/redot-\(.*\)/\1/')
-	if [ "${platform}" == 'darwin' ]; then
-		echo "Redot_v${redot_version}_${mono}macos"
-		exit 0
-	fi
-	echo "Redot_v${redot_version}_${mono}${platform}_${arch}"
-}
 
 get_release_file_name() {
 	local version="$1"
 	local tool_name="$2"
 
 	platform=$(uname | tr '[:upper:]' '[:lower:]')
-	arch=$(uname -m)
-	mono=
+	arch=$(uname -
 	suffix=
 	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
-		mono="mono_"
 		suffix="mono_${platform}_${arch}"
 	else
 		suffix="${platform}.${arch}"
@@ -61,18 +46,6 @@ get_release_file_name() {
 
 	echo "Godot_v${version}_${suffix}"
 	
-
-	# if [ "$tool_name" == "redot" ]; then
-	# 	get_redot_release_name "$version" "$platform" "$arch" "$mono"
-	# 	exit 0
-	# fi
-
-	# if [ "${platform}" == 'darwin' ]; then
-	# 	echo "Godot_v${version}_${mono}macos.universal"
-	# 	exit 0
-	# fi
-
-	# echo "Godot_v${version}_${mono}${platform}_${arch}"
 }
 
 sort_versions() {
