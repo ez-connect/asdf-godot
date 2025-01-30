@@ -18,7 +18,7 @@ get_release_file_name() {
 	local tool_name="$2"
 
 	platform=$(uname | tr '[:upper:]' '[:lower:]')
-	arch=$(uname -
+	arch=$(uname -m)
 	suffix=
 	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
 		suffix="mono_${platform}_${arch}"
