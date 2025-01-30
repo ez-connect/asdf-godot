@@ -33,21 +33,45 @@ get_release_file_name() {
 	platform=$(uname | tr '[:upper:]' '[:lower:]')
 	arch=$(uname -m)
 	mono=
+	suffix=
 	if [[ "$ASDF_GODOT_INSTALL_MONO" != "0" ]]; then
 		mono="mono_"
+		suffix="mono_${platform}_${arch}"
+	else
+		suffix="${platform}.${arch}"
 	fi
 
+	
 	if [ "$tool_name" == "redot" ]; then
-		get_redot_release_name "$version" "$platform" "$arch" "$mono"
+		if [ "${platform}" == 'darwin' ]; then
+			echo "Redot_v${redot_version}_${mono}macos"
+			exit 0
+		fi
+		echo "Redot_v${redot_version}_${suffix}"
+
 		exit 0
 	fi
+
 
 	if [ "${platform}" == 'darwin' ]; then
 		echo "Godot_v${version}_${mono}macos.universal"
 		exit 0
 	fi
 
-	echo "Godot_v${version}_${mono}${platform}_${arch}"
+	echo "Godot_v${version}_${suffix}"
+	
+
+	# if [ "$tool_name" == "redot" ]; then
+	# 	get_redot_release_name "$version" "$platform" "$arch" "$mono"
+	# 	exit 0
+	# fi
+
+	# if [ "${platform}" == 'darwin' ]; then
+	# 	echo "Godot_v${version}_${mono}macos.universal"
+	# 	exit 0
+	# fi
+
+	# echo "Godot_v${version}_${mono}${platform}_${arch}"
 }
 
 sort_versions() {
