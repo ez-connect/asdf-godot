@@ -4,7 +4,7 @@ set -euo pipefail
 
 GH_REPO_GODOT='https://github.com/godotengine/godot-builds'
 GH_REPO_REDOT='https://github.com/Redot-Engine/redot-engine'
-ASDF_GODOT_INSTALL_MONO=${ASDF_GODOT_INSTALL_MONO:-'0'} #HACK: for some reason this bash script doesn't like unbound vars
+ASDF_GODOT_INSTALL_MONO=${ASDF_GODOT_INSTALL_MONO:-'0'} #get asdf 
 
 curl_opts=(-fsSL)
 
@@ -26,7 +26,7 @@ get_release_file_name() {
 		suffix="${platform}.${arch}"
 	fi
 
-	
+
 	if [ "$tool_name" == "redot" ]; then
 		redot_version=$(echo "$version" | sed 's/redot-\(.*\)/\1/')
 		if [ "${platform}" == 'darwin' ]; then
