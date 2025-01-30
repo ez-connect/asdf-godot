@@ -43,6 +43,7 @@ get_release_file_name() {
 
 	
 	if [ "$tool_name" == "redot" ]; then
+		redot_version=$(echo "$version" | sed 's/redot-\(.*\)/\1/')
 		if [ "${platform}" == 'darwin' ]; then
 			echo "Redot_v${redot_version}_${mono}macos"
 			exit 0
