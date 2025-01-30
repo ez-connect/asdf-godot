@@ -47,7 +47,7 @@ get_release_file_name() {
 		exit 0
 	fi
 
-	echo "Godot_v${version}_${mono}${platform}.${arch}"
+	echo "Godot_v${version}_${mono}${platform}_${arch}"
 }
 
 sort_versions() {
