@@ -23,7 +23,7 @@ get_redot_release_name() {
 		echo "Redot_v${redot_version}_${mono}macos"
 		exit 0
 	fi
-	echo "Redot_v${version}_${mono}${platform}_${arch}"
+	echo "Redot_v${redot_version}_${mono}${platform}_${arch}"
 }
 
 get_release_file_name() {
