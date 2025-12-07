@@ -35,14 +35,21 @@ get_release_file_name() {
 		prefix="Godot"
 		formatted_version=$(echo "$version")
 	fi
-
-	
+	# https://github.com/godotengine/godot-builds/releases/download/4.5.1-stable/Godot_v4.5.1-stable_macos.universal.zip
+	# https://github.com/Redot-Engine/redot-engine/releases/download/redot-4.4-stable/Redot_v4.4-stable_macos_universal.zip
+	# wrong: https://github.com/Redot-Engine/redot-engine/releases/download/redot-4.4-stable/Redot_v4.4-stable_macos.universal.zip
 	if [ "${platform}" == 'darwin' ]; then
 		# redot 4.3.0 has different zip filename for some reason
-		if [ "${formatted_version}" == "4.3-stable" ] && [ "$tool_name" == "redot"  ]; then
-			echo "${prefix}_v${formatted_version}_macos"
-			exit 0
+		if [ "$tool_name" == "redot"  ]; then
+			if [ "${formatted_version}" == "4.3-stable" ]; then
+				echo "${prefix}_v${formatted_version}_macos"
+				exit 0
+			else
+				echo "${prefix}_v${formatted_version}_macos_universal"
+				exit 0
+			fi
 		fi
+
 		echo "${prefix}_v${formatted_version}_macos.universal"
 		exit 0
 	fi
